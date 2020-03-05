@@ -5,14 +5,13 @@ const forecast = (lat, long, callback) => {
     request({
         url: drakUrl,
         json: true
-    }, (error, response) => {
+    }, (error, {body}) => {
         if (error) {
             callback("Unable to connect to weather service.", undefined)
-        } else if (response.body.error) {
+        } else if (body.error) {
             callback("Unable to find location.", undefined)
         } else {
-            const data = response.body
-            callback(undefined, `${data.daily.data[0].summary} It is currently ${data.currently.temperature} degree out there. There is a ${data.currently.precipProbability}% change of rain.`)        
+            callback(undefined, `${body.daily.data[0].summary} It is currently ${body.currently.temperature} degree out there. There is a ${body.currently.precipProbability}% change of rain.`)        
         }
     })
 }
